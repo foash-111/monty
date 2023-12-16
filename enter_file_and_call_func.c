@@ -22,13 +22,17 @@ void enter_file(FILE *my_file, stack_t **stack)
 				free(str);
 			break;
 		}
-
 		if (str[reads_chars - 1] == '\n')
 			str[reads_chars - 1] = '\0';
 		if (str[0] == '\0')
 		{
 			str = NULL;
 			continue;
+		}
+		if (str[0] == '#')
+		{
+			free(str);
+			str = NULL;
 		}
 		arr = tokanized_array(str);
 		if (arr[0] != NULL)
@@ -92,6 +96,7 @@ if (!(check_push(arr, line_number, stack)))
  * @arr: tokanized array
  * @line_number: line counter
  * @stack: pointer to my linked list
+ * Return: boolean value
  */
 int check_push(char **arr, unsigned int line_number, stack_t **stack)
 {
