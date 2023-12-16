@@ -76,25 +76,11 @@ if (!(check_push(arr, line_number, stack)))
 		break;
 		i++;
 	}
-if (!(check_push(arr, line_number, stack)))
-{
-	while (i < 10)
-	{
-		if (strcmp(arr[0], op_func[i].opcode) == 0)
-		{
-			op_func[i].f(stack, line_number);
-			flag = 1;
-		}
-		if (flag == 1)
-		break;
-		i++;
-	}
 	if (i == 10)
 	{
 		fprintf(stderr, "L%d: unknown instruction %s\n", line_number, arr[0]);
 		exit(EXIT_FAILURE);
 	}
-}
 }
 }
 /**
