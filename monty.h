@@ -43,7 +43,7 @@ typedef struct instruction_s
 
 void enter_file(FILE *my_file, stack_t **stack);
 void execute_function(char **arr, unsigned int line_number, stack_t **stack);
-void check_push(char **arr, unsigned int line_number, stack_t **stack);
+int check_push(char **arr, unsigned int line_number, stack_t **stack);
 
 void push_function(stack_t **stack, int num);
 void pall_function(stack_t **stack, unsigned int num);

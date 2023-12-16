@@ -53,7 +53,7 @@ void enter_file(FILE *my_file, stack_t **stack)
  */
 void execute_function(char **arr, unsigned int line_number, stack_t **stack)
 {
-	int i = 0;
+	int i = 0, flag = 0;
 	instruction_t op_func[] = {{"pall", pall_function},
 							   {"pint", pint_function},
 							   {"pop", pop_function},
@@ -66,26 +66,34 @@ void execute_function(char **arr, unsigned int line_number, stack_t **stack)
 							   {"mod", mod_function},
 							   {NULL, NULL}};
 
-	check_push(arr, line_number, stack);
+if (!(check_push(arr, line_number, stack)))
+{
 
 	while (i < 10)
 	{
 		if (strcmp(arr[0], op_func[i].opcode) == 0)
 		{
 			op_func[i].f(stack, line_number);
-			break;
+			flag = 1;
 		}
+		if (flag == 1)
+		break;
 		i++;
 	}
+	if (i == 10)
+	{
+		fprintf(stderr, "L%d: unknown instruction %s\n", line_number, arr[0]);
+		exit(EXIT_FAILURE);
+	}
 }
-
+}
 /**
  * check_push - check_push
  * @arr: tokanized array
  * @line_number: line counter
  * @stack: pointer to my linked list
  */
-void check_push(char **arr, unsigned int line_number, stack_t **stack)
+int check_push(char **arr, unsigned int line_number, stack_t **stack)
 {
 	char *check_int = NULL;
 	int i = 0, flag = 1;
@@ -116,6 +124,7 @@ void check_push(char **arr, unsigned int line_number, stack_t **stack)
 			}
 
 			push_function(stack, _atoi(arr[1]));
+			return (1);
 		}
 		else
 		{
@@ -123,6 +132,7 @@ void check_push(char **arr, unsigned int line_number, stack_t **stack)
 			exit(EXIT_FAILURE);
 		}
 	}
+	return (0);
 }
 /**
  * push_function - push element to the stack
