@@ -22,7 +22,6 @@ void enter_file(FILE *my_file, stack_t **stack)
 				free(str);
 			break;
 		}
-
 		if (str[reads_chars - 1] == '\n')
 			str[reads_chars - 1] = '\0';
 		if (str[0] == '\0')
@@ -44,9 +43,7 @@ void enter_file(FILE *my_file, stack_t **stack)
 			arr = NULL;
 		}
 		else
-		{
-			free_all_array(arr);
-		}
+		{ free_all_array(arr); }
 		line_number++;
 	}
 }
@@ -61,20 +58,13 @@ void execute_function(char **arr, unsigned int line_number, stack_t **stack)
 {
 	int i = 0, flag = 0;
 	instruction_t op_func[] = {{"pall", pall_function},
-							   {"pint", pint_function},
-							   {"pop", pop_function},
-							   {"swap", swap_function},
-							   {"add", add_function},
-							   {"nop", nop_function},
-							   {"sub", sub_function},
-							   {"mul", mul_function},
-							   {"div", div_function},
-							   {"mod", mod_function},
-							   {NULL, NULL}};
-
+	{"pint", pint_function}, {"pop", pop_function},
+	{"swap", swap_function}, {"add", add_function},
+	{"nop", nop_function}, {"sub", sub_function},
+	{"mul", mul_function}, {"div", div_function},
+	{"mod", mod_function}, {NULL, NULL}};
 if (!(check_push(arr, line_number, stack)))
 {
-
 	while (i < 10)
 	{
 		if (strcmp(arr[0], op_func[i].opcode) == 0)
@@ -88,7 +78,6 @@ if (!(check_push(arr, line_number, stack)))
 	}
 if (!(check_push(arr, line_number, stack)))
 {
-
 	while (i < 10)
 	{
 		if (strcmp(arr[0], op_func[i].opcode) == 0)
@@ -113,6 +102,7 @@ if (!(check_push(arr, line_number, stack)))
  * @arr: tokanized array
  * @line_number: line counter
  * @stack: pointer to my linked list
+ * Return: boolean value
  */
 int check_push(char **arr, unsigned int line_number, stack_t **stack)
 {
