@@ -22,6 +22,7 @@ void enter_file(FILE *my_file, stack_t **stack)
 				free(str);
 			break;
 		}
+
 		if (str[reads_chars - 1] == '\n')
 			str[reads_chars - 1] = '\0';
 		if (str[0] == '\0')
@@ -29,14 +30,15 @@ void enter_file(FILE *my_file, stack_t **stack)
 			str = NULL;
 			continue;
 		}
-		if (str[0] == '#')
-		{
-			free(str);
-			str = NULL;
-		}
 		arr = tokanized_array(str);
 		if (arr[0] != NULL)
 		{
+			if (arr[0][0] == '#')
+			{
+			free_all_array(arr);
+			arr = NULL;
+			continue;
+			}
 			execute_function(arr, line_number, stack);
 			free_all_array(arr);
 			arr = NULL;
@@ -84,6 +86,20 @@ if (!(check_push(arr, line_number, stack)))
 		break;
 		i++;
 	}
+if (!(check_push(arr, line_number, stack)))
+{
+
+	while (i < 10)
+	{
+		if (strcmp(arr[0], op_func[i].opcode) == 0)
+		{
+			op_func[i].f(stack, line_number);
+			flag = 1;
+		}
+		if (flag == 1)
+		break;
+		i++;
+	}
 	if (i == 10)
 	{
 		fprintf(stderr, "L%d: unknown instruction %s\n", line_number, arr[0]);
@@ -91,12 +107,12 @@ if (!(check_push(arr, line_number, stack)))
 	}
 }
 }
+}
 /**
  * check_push - check_push
  * @arr: tokanized array
  * @line_number: line counter
  * @stack: pointer to my linked list
- * Return: boolean value
  */
 int check_push(char **arr, unsigned int line_number, stack_t **stack)
 {
