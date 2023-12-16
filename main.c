@@ -87,7 +87,8 @@ void nop_function(stack_t **stack, unsigned int num)
  * main - Entry point
  *
  * Description: A C program that prints with put function
- *
+ * @argc: argument count
+ * @argv: argument vector
  * Return: Always 0 (Success)
 */
 
