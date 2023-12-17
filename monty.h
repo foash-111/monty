@@ -42,7 +42,7 @@ typedef struct instruction_s
 
 
 void enter_file(FILE *my_file, stack_t **stack);
-void execute_function(char **arr, unsigned int line_number, stack_t **stack);
+int execute_function(char **arr, unsigned int line_number, stack_t **stack);
 int check_push(char **arr, unsigned int line_number, stack_t **stack);
 
 void push_function(stack_t **stack, int num);
@@ -50,14 +50,21 @@ void pall_function(stack_t **stack, unsigned int num);
 void pint_function(stack_t **stack, unsigned int num);
 void pop_function(stack_t **stack, unsigned int num);
 void swap_function(stack_t **stack, unsigned int num);
-void add_function(stack_t **stack, unsigned int num);
 void nop_function(stack_t **stack, unsigned int num);
+
+void add_function(stack_t **stack, unsigned int num);
 void sub_function(stack_t **stack, unsigned int num);
 void mul_function(stack_t **stack, unsigned int num);
 void div_function(stack_t **stack, unsigned int num);
 void mod_function(stack_t **stack, unsigned int num);
 
+void pchar_function(stack_t **stack, unsigned int line_number);
+void pstr_function(stack_t **stack, unsigned int line_number);
+void rotl_function(stack_t **stack, unsigned int line_number);
+void rotr_function(stack_t **stack, unsigned int line_number);
+
 void free_stack(stack_t *head);
+void free_stack_from_func(stack_t **head);
 
 int _strlen(const char *s);
 int _strcmp(char *s1, char *s2);

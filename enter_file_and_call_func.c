@@ -26,19 +26,21 @@ void enter_file(FILE *my_file, stack_t **stack)
 			str[reads_chars - 1] = '\0';
 		if (str[0] == '\0')
 		{
+			free(str);
 			str = NULL;
 			continue;
 		}
 		arr = tokanized_array(str);
+		free(str);
+		str = NULL;
 		if (arr[0] != NULL)
 		{
 			if (arr[0][0] == '#')
-			{
-			free_all_array(arr);
+			{ free_all_array(arr);
 			arr = NULL;
-			continue;
-			}
-			execute_function(arr, line_number, stack);
+			continue; }
+			if (!(execute_function(arr, line_number, stack)))
+			{ fclose(my_file), exit(EXIT_FAILURE); }
 			free_all_array(arr);
 			arr = NULL;
 		}
@@ -53,8 +55,10 @@ void enter_file(FILE *my_file, stack_t **stack)
  * @arr: tokanized array
  * @line_number: line counter
  * @stack: pointer to my linked list
+ * Return: boolean value to check in case error
+ * we need to close the file
  */
-void execute_function(char **arr, unsigned int line_number, stack_t **stack)
+int execute_function(char **arr, unsigned int line_number, stack_t **stack)
 {
 	int i = 0, flag = 0;
 	instruction_t op_func[] = {{"pall", pall_function},
@@ -62,10 +66,12 @@ void execute_function(char **arr, unsigned int line_number, stack_t **stack)
 	{"swap", swap_function}, {"add", add_function},
 	{"nop", nop_function}, {"sub", sub_function},
 	{"mul", mul_function}, {"div", div_function},
-	{"mod", mod_function}, {NULL, NULL}};
+	{"mod", mod_function}, {"pchar", pchar_function},
+	{"pstr", pstr_function}, {"rotl", rotl_function},
+	{"rotr", rotr_function}};
 if (!(check_push(arr, line_number, stack)))
 {
-	while (i < 10)
+	while (i < 14)
 	{
 		if (strcmp(arr[0], op_func[i].opcode) == 0)
 		{
@@ -76,12 +82,15 @@ if (!(check_push(arr, line_number, stack)))
 		break;
 		i++;
 	}
-	if (i == 10)
+	if (i == 14)
 	{
 		fprintf(stderr, "L%d: unknown instruction %s\n", line_number, arr[0]);
-		exit(EXIT_FAILURE);
+		free_all_array(arr);
+		free_stack(*stack);
+		return (0);
 	}
 }
+return (1);
 }
 /**
  * check_push - check_push

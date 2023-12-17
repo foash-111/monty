@@ -76,3 +76,19 @@ void free_stack(stack_t *head)
 		current = head;
 		}
 }
+/**
+ * free_stack_from_func - free_list
+ * @head: pointer to the list
+ * Return: nothing
+*/
+void free_stack_from_func(stack_t **head)
+{
+	stack_t *current = *head;
+
+		while (*head)
+		{
+		*head = (*head)->next;
+		free(current);
+		current = *head;
+		}
+}
